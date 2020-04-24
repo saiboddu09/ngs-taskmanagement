@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Management</title>
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <!-- include jQuery.js script -->
+    <script src="./assets/js/jQuery/jquery.min.js"></script>
+    <!-- include angular.js script -->
+    <script src="./assets/js/angular/angular.min.js"></script>
+    <!-- include main angular module -->
+    <script src="app.js"></script>
+</head>
+<body ng-app="taskApp" ng-controller="rootController">
+    <div id="header" class="title">
+        <h3>Task Management</h3>
+    </div>
+    <!-- Show task form -->
+    <div id="task_form" class="task-form">
+        <form ng-submit="createTask($event)" class="form">
+            <div class="form-list">
+                <ul>
+                    <li>
+                        <label>Task Name:</label>
+                        <input name="task_name" type="text" ng-model="task.name" minlength="3" required/>
+                    </li>
+                    <li>
+                        <label>Task date:</label>
+                        <input name="task_date" type="date" ng-model="task.date" ng-change="taskDateChange()" required/>
+                    </li>
+                    <li class="form-list-textarea">
+                        <label>Task description:</label>
+                        <textarea name="task_description" type="text" ng-model="task.description" minlength="10" required></textarea>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-btn">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <!-- Show task lists -->
+    <div id="task_lists" class="card-list" ng-if="taskList.length !== 0">
+        <div class="card" ng-repeat="task in taskList track by $index">
+            <div class="card-content">
+                <div class="card-head">
+                    <div class="task-name">
+                        <label>Task Name:</label><span title={{task.name}}>{{task.name}}</span>
+                    </div>
+                    <div class="task-date">
+                        <label>Task Date:</label><span title={{task.date}}>{{task.date}}</span>
+                    </div>
+                    <button class="close-icon" type="button" ng-click="removeTask(task.id)">x</button>
+                </div>
+                <div class="card-body">
+                    <p title="{{task.description}}">{{task.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Show task logs -->
+    <div id="task_history" ng-if="taskLogs.length !== 0">
+        <div class="event-block">
+                <div class="task_history">Task History</div>
+                <div class="event-head">
+                    <span>Event</span>
+                    <span>Time</span>
+                </div>
+                <div class="event-list">
+                    <div class="event-log-listing" ng-repeat="taskLog in taskLogs track by $index">
+                        <span>{{taskLog.event}}</span>
+                        <span>{{taskLog.time}}</span>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+
+<!-- include angular files -->
+<script src="./app.controller.js"></script>
+
+</html>
